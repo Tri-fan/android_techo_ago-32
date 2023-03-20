@@ -1,4 +1,4 @@
-COMMON_PATH := device/TECNO/AGo-32
+COMMON_PATH := device/TECNO/AGo_32
 # For building with minimal manifest
 ALLOW_MISSING_DEPENDENCIES := true
 
@@ -16,12 +16,12 @@ TARGET_NO_BOOTLOADER := true
 TARGET_USES_UEFI := true
 
 # Prebuilt kernel and dtb
-TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/zImage
-TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/dtb.img
+TARGET_PREBUILT_KERNEL := $(COMMON_PATH)/prebuilt/zImage
+TARGET_PREBUILT_DTB := $(COMMON_PATH)/prebuilt/dtb.img
 BOARD_INCLUDE_RECOVERY_DTBO := true
 
 # Kernel
-BOARD_KERNEL_CMDLINE := bootopt=64S3,32S1,32S1 buildvariant=user androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE := bootopt=64S3,32S1,32S1 androidboot.selinux=permissive
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_BASE := 0x40000000
 BOARD_RAMDISK_OFFSET := 0x11b00000
@@ -34,8 +34,6 @@ BOARD_MKBOOTIMG_ARGS := --kernel_offset $(BOARD_KERNEL_OFFSET) --ramdisk_offset 
 # Platform
 TARGET_BOARD_PLATFORM := mt6761
 TARGET_SUPPORTS_64_BIT_APPS := false
-PLATFORM_SECURITY_PATCH := 2099-12-31
-VENDOR_SECURITY_PATCH := 2099-12-31
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 131072 # (BOARD_KERNEL_PAGESIZE * 64)
@@ -59,17 +57,17 @@ BOARD_SUPER_PARTITION_SYSTEM_EXT_DEVICE_SIZE := 891244544
 BOARD_MAIN_A_PARTITION_LIST := system_a system_ext_a product_a vendor_a dtbo_a gz_a lk_a logo_a md1img_a scp_a spmfw_a  sspm_a tee_a tkv_a vbmeta_a vbmeta_system_a vbmeta_vendor_a vendor_boot_a
 BOARD_MAIN_B_PARTITION_LIST := system_b system_ext_b product_b vendor_b dtbo_b gz_b lk_b logo_b md1img_b scp_b spwfw_b sspm_b tee_b tkv_b vbmeta_b vbmeta_system_b vbmeta_vendor_b vendor_boot_b
 
-BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
-BOARD_ODMIMAGE_FILE_SYSTEM_TYPE := ext4
-TARGET_COPY_OUT_ODM := odm
-BOARD_PRODUCTIMAGE_FILE_SYSTEM_TYPE := ext4
-TARGET_COPY_OUT_PRODUCT := product
-BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
-TARGET_COPY_OUT_VENDOR := vendor
+#BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
+#BOARD_ODMIMAGE_FILE_SYSTEM_TYPE := ext4
+#TARGET_COPY_OUT_ODM := odm
+#BOARD_PRODUCTIMAGE_FILE_SYSTEM_TYPE := ext4
+#TARGET_COPY_OUT_PRODUCT := product
+#BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
+#TARGET_COPY_OUT_VENDOR := vendor
 
 # Workaround for error copying vendor files to recovery ramdisk
-BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
-TARGET_COPY_OUT_VENDOR := vendor
+#BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
+#TARGET_COPY_OUT_VENDOR := vendor
 
 # Recovery
 BOARD_HAS_LARGE_FILESYSTEM := true
@@ -86,7 +84,7 @@ TW_DEFAULT_BRIGHTNESS := "10"
 TW_EXCLUDE_DEFAULT_USB_INIT := true
 TW_EXTRA_LANGUAGES := false
 TW_INCLUDE_NTFS_3G := false
-TW_THEME := portrait_xhdpi
+TW_THEME := portrait_hdpi
 TW_INCLUDE_CRYPTO := true
 TW_INCLUDE_RESETPROP := true
 TW_USE_TOOLBOX := true
@@ -101,5 +99,9 @@ TARGET_RECOVERY_DEVICE_MODULES += debuggerd
 RECOVERY_BINARY_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/debuggerd
 TARGET_RECOVERY_DEVICE_MODULES += strace
 RECOVERY_BINARY_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/strace
+
+# Crypto
 TW_INCLUDE_CRYPTO := true
 TW_INCLUDE_FBE := true
+PLATFORM_SECURITY_PATCH := 2099-12-31
+VENDOR_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
