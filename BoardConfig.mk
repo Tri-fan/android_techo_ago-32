@@ -8,17 +8,23 @@ TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
 TARGET_CPU_VARIANT := generic
-ARCH_ARM_HAVE_NEON := true
 
 # Bootloader
+BOARD_USES_RECOVERY_AS_BOOT := true
+BOARD_BUILD_SYSTEM_ROOT_IMAGE := false
 TARGET_BOOTLOADER_BOARD_NAME := CY-BE8RU-XQ662
+TW_HAS_NO_RECOVERY_PARTITION := true
+TW_INCLUDE_FASTBOOTD := true
 TARGET_NO_BOOTLOADER := true
+TARGET_NO_RECOVERY := true
 TARGET_USES_UEFI := true
+# maybe bugs if included
+TW_INCLUDE_REPACKTOOLS := false
 
-# Prebuilt kernel and dtb
+# Prebuilt kernel with dtb
+BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 TARGET_PREBUILT_KERNEL := $(COMMON_PATH)/prebuilt/zImage
-TARGET_PREBUILT_DTB := $(COMMON_PATH)/prebuilt/dtb.img
-BOARD_INCLUDE_RECOVERY_DTBO := true
+BOARD_PREBUILT_DTBIMAGE_DIR := $(COMMON_PATH)/prebuilt/main.dtb
 
 # Kernel
 BOARD_KERNEL_CMDLINE := bootopt=64S3,32S1,32S1 androidboot.selinux=permissive
@@ -29,7 +35,7 @@ BOARD_KERNEL_OFFSET := 0x00008000
 BOARD_TAGS_OFFSET := 0x07880000
 BOARD_DTB_OFFSET := 0x07880000
 BOARD_SECOND_OFFSET := 0xc0000000
-BOARD_MKBOOTIMG_ARGS := --kernel_offset $(BOARD_KERNEL_OFFSET) --ramdisk_offset $(BOARD_RAMDISK_OFFSET) --tags_offset $(BOARD_TAGS_OFFSET) --dtb_offset $(BOARD_DTB_OFFSET) --dtb $(TARGET_PREBUILT_DTB) --header_version 2 --os_version 12.0.0 --second_offset $(BOARD_SECOND_OFFSET)
+BOARD_MKBOOTIMG_ARGS := --base $(BOARD_KERNEL_BASE) --kernel_offset $(BOARD_KERNEL_OFFSET) --ramdisk_offset $(BOARD_RAMDISK_OFFSET) --tags_offset $(BOARD_TAGS_OFFSET) --dtb $(BOARD_PREBUILT_DTBIMAGE_DIR) --dtb_offset $(BOARD_DTB_OFFSET) --header_version 2 --os_version 12.0.0 --second_offset $(BOARD_SECOND_OFFSET) --board $(TARGET_BOOTLOADER_BOARD_NAME)
 
 # Platform
 TARGET_BOARD_PLATFORM := mt6761
@@ -69,14 +75,10 @@ BOARD_MAIN_B_PARTITION_LIST := system_b system_ext_b product_b vendor_b dtbo_b g
 #BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 #TARGET_COPY_OUT_VENDOR := vendor
 
-# Recovery
 BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_SUPPRESS_SECURE_ERASE := true
 
-# TWRP specific build flags
-BOARD_HAS_NO_REAL_SDCARD := false
-RECOVERY_SDCARD_ON_DATA := true
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 #TARGET_USE_CUSTOM_LUN_FILE_PATH := /config/usb_gadget/g1/functions/mass_storage.0/lun.%d/file
 TW_BRIGHTNESS_PATH := "/sys/class/leds/lcd-backlight/brightness"
@@ -85,7 +87,6 @@ TW_EXCLUDE_DEFAULT_USB_INIT := true
 TW_EXTRA_LANGUAGES := false
 TW_INCLUDE_NTFS_3G := false
 TW_THEME := portrait_hdpi
-TW_INCLUDE_CRYPTO := true
 TW_INCLUDE_RESETPROP := true
 TW_USE_TOOLBOX := true
 TW_HAS_EDL_MODE := false
@@ -100,8 +101,11 @@ RECOVERY_BINARY_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/debuggerd
 TARGET_RECOVERY_DEVICE_MODULES += strace
 RECOVERY_BINARY_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/strace
 
+# Set language ru
+TW_DEFAULT_LANGUAGE := ru
+
 # Crypto
 TW_INCLUDE_CRYPTO := true
-TW_INCLUDE_FBE := true
+TW_INCLUDE_FBE := false
 PLATFORM_SECURITY_PATCH := 2099-12-31
 VENDOR_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
