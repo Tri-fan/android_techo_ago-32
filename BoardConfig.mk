@@ -1,4 +1,4 @@
-COMMON_PATH := device/TECNO/AGo_32
+COMMON_PATH := device/tecno/ago_32
 # For building with minimal manifest
 ALLOW_MISSING_DEPENDENCIES := true
 
